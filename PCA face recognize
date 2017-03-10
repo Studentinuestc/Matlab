@@ -1,0 +1,44 @@
+str='/Users/xuhonghui/Desktop';
+S=0.0;
+dis=zeros(1,100,'double');
+b=zeros(2700,400,'double');
+for i=1:2700
+    B=imread(str,num2str(i),'.jpg');
+    m=size(B,3);
+    if m==1
+        I=B;
+    else
+        I=rgb2gray(B);
+    end
+    A=I';
+    C=A(:);
+    b(i,:)=C;
+    S=S+C;
+end
+Avg=mean(b);
+AvgImg=reshape(Avg,20,20);
+AvgImgInt=uint8(AvgImg);
+imshow(AvgImgInt);
+
+[coef,score,latent,t2]=PCA(b);
+pca10=coef(:,1:10);
+facestr='/Users/xuhonghui/Desktop';
+b1=zeros(4300,400,'double');
+for i=1:4300
+    B1=imread([facestr,number2str(i),'.jpg']);
+    m=size(B1,3);
+    if m==1
+        I1=B1;
+    else
+        I1=rgb2gray(B1);
+    end
+    A1=I1;
+    C1=A1(:);
+    b1(i,:)=C1;
+    S=S+C;
+end
+
+bb1=zeros(1000,10,'double');
+for i=1:1000
+    bb1(i,:)=(b1(i,:)-Avg)*pca10;
+end
