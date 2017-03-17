@@ -70,3 +70,14 @@ I19=rgb2gray(p19);
 A19=double(I19(:));
 A=double([A1,A3,A5,A7,A9,A11,A13,A15,A17,A19]);
 [coeff,score,latent]=princomp(A,'econ')
+B=[];
+for i=1:10
+picname=['/Users/xuhonghui/Desktop/image/00',num2str(i),'.jpg'];
+II=imread(picname);
+p=imresize(II,[100,100]);
+n=rgb2gray(p);
+A=double(n(:));
+B=[B,A];
+%imshow(p)
+end
+[coeff,score,latent]=princomp(B)
