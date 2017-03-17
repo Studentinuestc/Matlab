@@ -69,3 +69,4 @@ p19=imresize(p18,[100,100]);
 I19=rgb2gray(p19);
 A19=double(I19(:));
 A=double([A1,A3,A5,A7,A9,A11,A13,A15,A17,A19]);
+[coeff,score,latent]=princomp(A,'econ')
