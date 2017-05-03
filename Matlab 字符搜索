@@ -1,0 +1,51 @@
+clc;
+clear;
+Bs=[];
+for i=1:1000
+picnames=['/Users/xuhonghui/Desktop/imagechar/',num2str(i),'.bmp'];
+IIs=imread(picnames);
+%ps=imresize(IIs,[100,100]);
+%n=rgb2gray(p);
+As=double(IIs(:));
+Bs=[Bs,As];
+end
+[U,D,V]=svd(Bs);
+k=16;
+U1=U(:,1:k);
+B1s=U1'*Bs;
+for searchs=1:10
+Cs=imread(['/Users/xuhonghui/Desktop/searchchar/',num2str(searchs),'.bmp']);
+%C1s=imresize(Cs,[100,100]);
+%n1=rgb2gray(C1);
+C2s=double(Cs(:));
+C3s=U1'*C2s;
+%B2=sign(B1);
+%C4=sign(C3);
+Ds=[];
+for j=1:400
+    temp=abs(norm(B1s(:,j))-norm(C3s));
+    Ds=[temp,Ds];
+end
+%E=sum(D,2);
+[ys,IS]=sort(Ds);
+Ys1=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(1)),'.bmp']);
+Ys2=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(2)),'.bmp']);
+Ys3=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(3)),'.bmp']);
+Ys4=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(4)),'.bmp']);
+Ys5=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(5)),'.bmp']);
+Ys6=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(6)),'.bmp']);
+Ys7=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(7)),'.bmp']);
+Ys8=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(8)),'.bmp']);
+Ys9=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(9)),'.bmp']);
+figure;
+subplot(4,3,1),imshow(Cs);
+subplot(4,3,4),imshow(Ys1);
+subplot(4,3,5),imshow(Ys2);
+subplot(4,3,6),imshow(Ys3);
+subplot(4,3,7),imshow(Ys4);
+subplot(4,3,8),imshow(Ys5);
+subplot(4,3,9),imshow(Ys6);
+subplot(4,3,10),imshow(Ys7);
+subplot(4,3,11),imshow(Ys8);
+subplot(4,3,12),imshow(Ys9);
+end 
