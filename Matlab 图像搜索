@@ -1,0 +1,51 @@
+clc;
+clear;
+B=[];
+for i=31:140
+picname=['/Users/xuhonghui/Desktop/imageface/',num2str(i),'.jpg'];
+II=imread(picname);
+p=imresize(II,[100,100]);
+n=rgb2gray(p);
+A=double(n(:));
+B=[B,A];
+end
+[U,D,V]=svd(B);
+k=2000;
+U1=U(:,1:k);
+B1=U1'*B;
+for search=1:7
+C=imread(['/Users/xuhonghui/Desktop/searchimageface/',num2str(search),'.jpg']);
+C1=imresize(C,[100,100]);
+n1=rgb2gray(C1);
+C2=double(n1(:));
+C3=U1'*C2;
+%B2=sign(B1);
+%C4=sign(C3);
+D=[];
+for j=1:110
+    temp=abs(norm(B1(:,j))-norm(C3));
+    D=[temp,D];
+end
+%E=sum(D,2);
+[y,I]=sort(D);
+Y1=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(1)+30),'.jpg']);
+Y2=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(2)+30),'.jpg']);
+Y3=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(3)+30),'.jpg']);
+Y4=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(4)+30),'.jpg']);
+Y5=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(5)+30),'.jpg']);
+Y6=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(6)+30),'.jpg']);
+Y7=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(7)+30),'.jpg']);
+Y8=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(8)+30),'.jpg']);
+Y9=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(9)+30),'.jpg']);
+figure;
+subplot(4,3,1),imshow(C);
+subplot(4,3,4),imshow(Y1);
+subplot(4,3,5),imshow(Y2);
+subplot(4,3,6),imshow(Y3);
+subplot(4,3,7),imshow(Y4);
+subplot(4,3,8),imshow(Y5);
+subplot(4,3,9),imshow(Y6);
+subplot(4,3,10),imshow(Y7);
+subplot(4,3,11),imshow(Y8);
+subplot(4,3,12),imshow(Y9);
+end 
