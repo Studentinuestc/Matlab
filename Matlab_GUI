@@ -1,0 +1,189 @@
+function varargout = GUI(varargin)
+% GUI MATLAB code for GUI.fig
+%      GUI, by itself, creates a new GUI or raises the existing
+%      singleton*.
+%
+%      H = GUI returns the handle to a new GUI or the handle to
+%      the existing singleton*.
+%
+%      GUI('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in GUI.M with the given input arguments.
+%
+%      GUI('Property','Value',...) creates a new GUI or raises the
+%      existing singleton*.  Starting from the left, property value pairs are
+%      applied to the GUI before GUI_OpeningFcn gets called.  An
+%      unrecognized property name or invalid value makes property application
+%      stop.  All inputs are passed to GUI_OpeningFcn via varargin.
+%
+%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
+%      instance to run (singleton)".
+%
+% See also: GUIDE, GUIDATA, GUIHANDLES
+
+% Edit the above text to modify the response to help GUI
+
+% Last Modified by GUIDE v2.5 02-May-2017 23:41:37
+
+% Begin initialization code - DO NOT EDIT
+gui_Singleton = 1;
+gui_State = struct('gui_Name',       mfilename, ...
+                   'gui_Singleton',  gui_Singleton, ...
+                   'gui_OpeningFcn', @GUI_OpeningFcn, ...
+                   'gui_OutputFcn',  @GUI_OutputFcn, ...
+                   'gui_LayoutFcn',  [] , ...
+                   'gui_Callback',   []);
+if nargin && ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+end
+
+if nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+else
+    gui_mainfcn(gui_State, varargin{:});
+end
+% End initialization code - DO NOT EDIT
+
+
+% --- Executes just before GUI is made visible.
+function GUI_OpeningFcn(hObject, eventdata, handles, varargin)
+% This function has no output args, see OutputFcn.
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% varargin   command line arguments to GUI (see VARARGIN)
+
+% Choose default command line output for GUI
+handles.output = hObject;
+
+% Update handles structure
+guidata(hObject, handles);
+
+% UIWAIT makes GUI wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+
+
+% --- Outputs from this function are returned to the command line.
+function varargout = GUI_OutputFcn(hObject, eventdata, handles) 
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Get default command line output from handles structure
+varargout{1} = handles.output;
+
+
+% --- Executes on button press in pushbutton1.
+function pushbutton1_Callback(hObject, eventdata, handles)
+clc;
+clear;
+B=[];
+for i=31:140
+picname=['/Users/xuhonghui/Desktop/imageface/',num2str(i),'.jpg'];
+II=imread(picname);
+p=imresize(II,[100,100]);
+n=rgb2gray(p);
+A=double(n(:));
+B=[B,A];
+end
+[U,D,V]=svd(B);
+k=2000;
+U1=U(:,1:k);
+B1=U1'*B;
+for search=1:7
+C=imread(['/Users/xuhonghui/Desktop/searchimageface/',num2str(search),'.jpg']);
+C1=imresize(C,[100,100]);
+n1=rgb2gray(C1);
+C2=double(n1(:));
+C3=U1'*C2;
+%B2=sign(B1);
+%C4=sign(C3);
+D=[];
+for j=1:110
+    temp=abs(norm(B1(:,j))-norm(C3));
+    D=[temp,D];
+end
+%E=sum(D,2);
+[y,I]=sort(D);
+Y1=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(1)+30),'.jpg']);
+Y2=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(2)+30),'.jpg']);
+Y3=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(3)+30),'.jpg']);
+Y4=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(4)+30),'.jpg']);
+Y5=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(5)+30),'.jpg']);
+Y6=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(6)+30),'.jpg']);
+Y7=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(7)+30),'.jpg']);
+Y8=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(8)+30),'.jpg']);
+Y9=imread(['/Users/xuhonghui/Desktop/imageface/',num2str(I(9)+30),'.jpg']);
+figure;
+subplot(4,3,1),imshow(C);
+subplot(4,3,4),imshow(Y1);
+subplot(4,3,5),imshow(Y2);
+subplot(4,3,6),imshow(Y3);
+subplot(4,3,7),imshow(Y4);
+subplot(4,3,8),imshow(Y5);
+subplot(4,3,9),imshow(Y6);
+subplot(4,3,10),imshow(Y7);
+subplot(4,3,11),imshow(Y8);
+subplot(4,3,12),imshow(Y9);
+end 
+% hObject    handle to pushbutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton2.
+function pushbutton2_Callback(hObject, eventdata, handles)
+clc;
+clear;
+Bs=[];
+for i=1:3000
+picnames=['/Users/xuhonghui/Desktop/imagechar/',num2str(i),'.bmp'];
+IIs=imread(picnames);
+%ps=imresize(IIs,[100,100]);
+%n=rgb2gray(p);
+As=double(IIs(:));
+Bs=[Bs,As];
+end
+[U,D,V]=svd(Bs);
+k=16;
+U1=U(:,1:k);
+B1s=U1'*Bs;
+for searchs=1:30
+Cs=imread(['/Users/xuhonghui/Desktop/searchchar/',num2str(searchs),'.bmp']);
+%C1s=imresize(Cs,[100,100]);
+%n1=rgb2gray(C1);
+C2s=double(Cs(:));
+C3s=U1'*C2s;
+%B2=sign(B1);
+%C4=sign(C3);
+Ds=[];
+for j=1:3000
+    temp=abs(norm(B1s(:,j))-norm(C3s));
+    Ds=[temp,Ds];
+end
+%E=sum(D,2);
+[ys,IS]=sort(Ds);
+Ys1=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(1)),'.bmp']);
+Ys2=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(2)),'.bmp']);
+Ys3=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(3)),'.bmp']);
+Ys4=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(4)),'.bmp']);
+Ys5=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(5)),'.bmp']);
+Ys6=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(6)),'.bmp']);
+Ys7=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(7)),'.bmp']);
+Ys8=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(8)),'.bmp']);
+Ys9=imread(['/Users/xuhonghui/Desktop/imagechar/',num2str(IS(9)),'.bmp']);
+figure;
+subplot(4,3,1),imshow(Cs);
+subplot(4,3,4),imshow(Ys1);
+subplot(4,3,5),imshow(Ys2);
+subplot(4,3,6),imshow(Ys3);
+subplot(4,3,7),imshow(Ys4);
+subplot(4,3,8),imshow(Ys5);
+subplot(4,3,9),imshow(Ys6);
+subplot(4,3,10),imshow(Ys7);
+subplot(4,3,11),imshow(Ys8);
+subplot(4,3,12),imshow(Ys9);
+end 
+% hObject    handle to pushbutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
